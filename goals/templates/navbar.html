@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport">
+    <style>
+        .navbar{
+          background-color:rgb(51, 45, 45);
+          color:rgb(235, 110, 38);
+          font-family: 'Vollkorn', serif;}
+        @media screen and (max-width:992px){
+        #search_form, #profile, .upload{
+       display: none;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="navbar container-fluid">
+      <div class="navbar-header">
+        <a class="nav-link" href="{% url 'index' %}" style="font-size:30px;font-weight:bolder; color:rgba(253, 19, 77, 0.938); font-family: 'Carter One', cursive; ">Resolutions</a>
+      </div>
+      <div class='nav navbar navbar-right'>
+                  <div class="dropdown">
+                      <a class="btn btn-default" data-toggle="dropdown" style="font-weight:bolder; color:rgb(255, 255, 255);">{{ user.username }} <img src='{{user.profile.profile_picture.url}}' width='18px' height='18px' style='border-radius:50%;'>
+                      </a>
+                      <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{%url 'my_profile'%}">Profile</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="/logout">Logout</a>
+                      </div>
+                        <a class='btn btn-default' href="{%url 'new_post' %}"></i> Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+</body>
+
+</html>

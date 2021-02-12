@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    h4{
+        text-align:left;
+    }
+    .container{
+        margin-top: 80px;
+    }
+</style>
+<div class="container">
+    
+    <div class="row">
+        <div class="col-lg-6" >
+            <div style="text-align:center">
+                <img src="{{profile.profile_picture.url}}"  alt="profile_pic" width="200px"  height="200px " style="border-radius: 50%;">
+            </div><br><br>
+
+        </div><br>
+        <div class="col-md-6 col-lg-6">
+            <div class="card-1">
+                <div class="card-text " style="padding: 20px;">
+                    <h5><strong> Username:</strong> {{request.user.profile.user}}</h5>
+                    <h5><strong>Email:</strong> {{request.user.profile.email}}</h5>
+                    <h5><strong>Bio:</strong>{{request.user.profile.bio}}</h5>
+                <a class="btn btn-default text-center" onclick="toggleFunc()" style="border-radius: 25px; background-color:rgb(202, 82, 102);color:white;"target="_blank">Edit Profile</a><br><br>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div id='form' style='display: none; text-align:center;' >
+        <div class="card-text" style="padding: 0;">
+            {{form.media}}
+            <form  action="/my_profile" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+
+                {{form.as_p}}
+                <input type="submit" class="btn btn-sm btn-default" value="update">
+            </form>
+        </div>
+    </div><br>
+    <p> {{posts|length}} posts</p>
+    <div class='row'>
+        {% for post in posts %}
+        <div class='col-md-4'>
+            <div class='card'>
+                <div class='card-header'><img src='{{post.user.profile.profile_picture.url}}' width='25px' height='25px' style='border-radius:50%; float:left;'> &nbsp; {{post.user}}<br> &nbsp;<small> {{post.date_posted}}</small></div><br>
+            <p style='padding:10px;'>{{post.goal}}</p>
+            <div>
+                <form action="{%url 'index' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="post" value="{{post.id}}">
+                    <button class='btn btn-default' style='color:black;' type='submit' ><i aria-hidden="true" class="far fa-heart"> </i></button>
+                    <a href="{% url 'single_post' post_id=post.id %}" class='btn btn-default' style='color:black;'><i class="far fa-comment" ></i></a>
+                </form>
+            </div><br>
+            <div class='card-footer' style='width:100%;padding:10px;display:flex;justify-content: space-between;'><span style='display:block'><a href="{% url 'single_post' post_id=post.id %}" class='btn btn-default' style='color:black;'>{{post.comments}} comments</a></span><button class='btn' style='background-color:rgb(233, 92, 115);color:white'>Update</button></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div><br><br>
+<script>
+    function toggleFunc() {
+    var x = document.getElementById("form");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>
+
+{%endblock%}

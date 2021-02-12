@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{% load static%}
+{% block content %}
+{{block.super}}
+<style>
+    .fa{
+    color: red; 
+    background: radial-gradient(grey 50%, transparent 50%);
+}
+</style>
+<div class='container'>
+    <div class='row' style='grid-gap:10px;'>
+        {% for post in posts %}
+        <div class='col-md-3 card' style='padding:10px;'>
+            <div class='card-header'><img src='{{post.user.profile.profile_picture.url}}' width='25px' height='25px' style='border-radius:50%; float:left;'> &nbsp; {{post.user}}<br> &nbsp;<small> {{post.date_posted}}</small></div><br>
+            <p>{{post.goal}}</p>
+            <div>
+                <form action="{%url 'index' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="post" value="{{post.id}}">
+                    <button class='btn btn-default' style='color:black;' type='submit' ><i aria-hidden="true" class="far fa-heart"> </i></button>
+                    <a href="{% url 'single_post' post_id=post.id %}" class='btn btn-default' style='color:black;'><i class="far fa-comment" ></i></a>
+                </form>
+            </div><br>
+            <div class='card-footer' style='width:100%;padding:0;'><span><a href="{% url 'single_post' post_id=post.id %}" class='btn btn-default' style='color:black;'>{{post.comments}} comments</a></span></div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function funct() {
+    var x = document.getElementById("like");
+    // if (x.style.color === "black") {
+    //   x.style.color === "red";
+    // } else {
+    //   x.style.display = "black";
+    // }
+    x.style.display === "none";
+  }
+</script>
+{%endblock%}
